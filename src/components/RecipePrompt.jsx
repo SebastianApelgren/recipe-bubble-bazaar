@@ -19,8 +19,13 @@ const RecipePrompt = ({ setRecipes, setStep }) => {
     },
     enabled: false,
     onSuccess: (data) => {
+      console.log("Received data:", data); // Add this line for debugging
       setRecipes(data);
       setStep("bubbles");
+    },
+    onError: (error) => {
+      console.error("Error fetching recipes:", error);
+      // Optionally, you can add error handling UI here
     },
   });
 
