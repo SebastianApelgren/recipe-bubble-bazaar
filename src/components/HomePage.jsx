@@ -10,7 +10,7 @@ const HomePage = ({ setStep, recentRecipes }) => {
         <Button onClick={() => setStep("prompt")} className="w-full bg-red-500 text-white hover:bg-red-700">
           Generate New Recipes
         </Button>
-        <h3 className="text-xl font-semibold">Recent Recipes</h3>
+        <h3 className="text-xl font-semibold text-red-500 ">Recent Recipes</h3>
         <div className="grid grid-cols-2 gap-4">
           {recentRecipes.map((recipe, index) => (
             <Card key={index} className="p-4 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setStep("details")}>
