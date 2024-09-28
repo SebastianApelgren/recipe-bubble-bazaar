@@ -39,9 +39,14 @@ const Cart = ({ cart, setCart, setStep }) => {
     0
   );
 
+  const totalItems = cart.reduce(
+    (sum, recipe) => sum + recipe.ingredients.length,
+    0
+  );
+
   return (
     <Card className="p-4 space-y-4">
-      <h2 className="text-2xl font-bold">Your Cart</h2>
+      <h2 className="text-2xl font-bold">Your Cart ({totalItems} items)</h2>
       {cart.map((recipe, index) => (
         <div key={index} className="border-b pb-2">
           <h3 className="text-xl font-semibold">{recipe.name}</h3>

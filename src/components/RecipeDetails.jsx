@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { motion } from "framer-motion";
 
 const RecipeDetails = ({ recipe, setCart, setStep }) => {
   const [ingredients, setIngredients] = useState(
     recipe.ingredients.map(ing => ({ ...ing, checked: true }))
   );
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleCheckChange = (index) => {
     const updatedIngredients = [...ingredients];
@@ -21,7 +23,7 @@ const RecipeDetails = ({ recipe, setCart, setStep }) => {
   const handleAddToCart = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
     setCart((prevCart) => [...prevCart, { ...recipe, ingredients: selectedIngredients }]);
-    setStep("cart");
+    setIsAdded(true);
   };
 
   return (
@@ -48,12 +50,17 @@ const RecipeDetails = ({ recipe, setCart, setStep }) => {
         <h3 className="text-xl font-semibold">Instructions:</h3>
         <p>{recipe.instructions}</p>
       </div>
-      <div className="space-x-2">
-        <Button onClick={handleAddToCart}>Add to Cart</Button>
-        <Button onClick={() => setStep("bubbles")} variant="outline">
-          Back to Recipes
+      <motion.div
+        animate={isAdded ? { backgroundColor: "#22c55e" } : {}}
+        transition={{ duration: 0.3 }}
+      >
+        <Button
+          onClick={isAdded ? () => setStep("cart") : handleAddToCart}
+          className="w-full"
+        >
+          {isAdded ? "Go to Cart" : "Add to Cart"}
         </Button>
-      </div>
+      </motion.div>
     </Card>
   );
 };

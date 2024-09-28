@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import RecipePrompt from "./components/RecipePrompt";
 import RecipeBubbles from "./components/RecipeBubbles";
 import RecipeDetails from "./components/RecipeDetails";
 import Cart from "./components/Cart";
 import ProfilePage from "./components/ProfilePage";
+import ShoppingListPage from "./components/ShoppingListPage";
+import BottomNavigation from "./components/BottomNavigation";
 
 const queryClient = new QueryClient();
 
@@ -16,13 +17,8 @@ const App = () => {
   const [recipes, setRecipes] = useState([]);
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [cart, setCart] = useState([]);
-  const [showProfile, setShowProfile] = useState(false);
 
   const renderContent = () => {
-    if (showProfile) {
-      return <ProfilePage setShowProfile={setShowProfile} />;
-    }
-
     switch (step) {
       case "prompt":
         return <RecipePrompt setRecipes={setRecipes} setStep={setStep} />;
@@ -44,6 +40,10 @@ const App = () => {
         );
       case "cart":
         return <Cart cart={cart} setCart={setCart} setStep={setStep} />;
+      case "profile":
+        return <ProfilePage setStep={setStep} />;
+      case "shoppingList":
+        return <ShoppingListPage setCart={setCart} setStep={setStep} />;
       default:
         return null;
     }
@@ -53,21 +53,10 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <div className="min-h-screen bg-gray-100 p-4 relative">
-          <Button
-            className="absolute top-4 left-4"
-            onClick={() => setShowProfile(true)}
-          >
-            Profile
-          </Button>
-          <Button
-            className="absolute top-4 right-4"
-            onClick={() => setStep("cart")}
-          >
-            Cart
-          </Button>
-          <h1 className="text-3xl font-bold text-center mb-6 pt-12">Recipe Generator</h1>
+        <div className="min-h-screen bg-gray-100 p-4 pb-16 relative">
+          <h1 className="text-3xl font-bold text-center mb-6">Recipe Generator</h1>
           {renderContent()}
+          <BottomNavigation setStep={setStep} cartItemCount={cart.length} />
         </div>
       </TooltipProvider>
     </QueryClientProvider>
