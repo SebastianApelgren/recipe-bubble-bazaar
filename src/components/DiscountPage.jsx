@@ -1,30 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-const discountItems = [
-  { name: "Smoked Ham D", brand: "GARANT", weight: "120g", oldPrice: 24.95, newPrice: 15.00, unitPrice: 125.00 },
-  { name: "Chorizo", brand: "GARANT", weight: "300g", oldPrice: 30.95, newPrice: 20.00, unitPrice: 66.67 },
-  { name: "Tortilla Original M", brand: "GARANT", weight: "320g", oldPrice: 16.95, newPrice: 10.00, unitPrice: 31.25 },
-  { name: "Salmon Fillet C-trim", brand: "FALKENBERG", weight: "ca: 1.5kg", oldPrice: 279.00, newPrice: 159.00, unitPrice: 159.00, maxPurchase: 2 },
-  { name: "Cheese Bread 4-pack", brand: "GARANT", weight: "200g", oldPrice: 15.00, newPrice: 12.00, unitPrice: 60.00 },
-  { name: "Carrots Class 1", brand: "GARANT", weight: "1kg", oldPrice: 18.95, newPrice: 8.00, unitPrice: 8.00 },
-];
-
+// DiscountItem Component
 const DiscountItem = ({ item, setShoppingList }) => {
   const handleAddToShoppingList = () => {
-    setShoppingList(prevList => [...prevList, { ...item, quantity: 1, price: item.newPrice }]);
+    setShoppingList(prevList => [...prevList, { ...item, quantity: 1, price: item.price }]);
   };
 
   return (
     <Card className="p-4 space-y-2">
-      <img src={`https://source.unsplash.com/100x100/?${item.name}`} alt={item.name} className="w-full h-32 object-cover" />
+      <img src={item.image_url} alt={item.name} className="w-full h-32 object-cover" />
       <h3 className="font-bold">{item.name}</h3>
-      <p>{item.brand}, {item.weight}</p>
-      <p>Old price: ${item.oldPrice.toFixed(2)}</p>
-      <p className="text-red-500 font-bold">${item.newPrice.toFixed(2)}</p>
-      <p>Unit price: ${item.unitPrice.toFixed(2)}/kg</p>
-      {item.maxPurchase && <p>Max {item.maxPurchase} purchases</p>}
+      <p>{item.quantity}</p>
+      <p className="text-red-500 font-bold">${item.price.toFixed(2)} /{item.price_unit}</p>
       <div className="space-y-2">
         <Button onClick={handleAddToShoppingList} className="w-full">Add to List</Button>
       </div>
@@ -32,14 +21,52 @@ const DiscountItem = ({ item, setShoppingList }) => {
   );
 };
 
+// DiscountPage Component
 const DiscountPage = ({ setShoppingList }) => {
+  const [discountItems, setDiscountItems] = useState([]);  // State to store discount items
+  const [loading, setLoading] = useState(true);            // State to track loading status
+  const [error, setError] = useState(null);                // State to track errors
+
+  // useEffect to fetch discount items from backend
+  useEffect(() => {
+    const fetchDiscountItems = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/get_sale_items');
+        if (!response.ok) {
+          throw new Error('Failed to fetch discount items');
+        }
+        const data = await response.json();
+        setDiscountItems(data);  // Set the discount items from the response
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);  // Stop loading after data fetch
+      }
+    };
+
+    fetchDiscountItems();
+  }, []);  // Empty dependency array means this runs once on mount
+
+  // Display loading, error, or the discount items
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">All Current Offers:</h2>
       <div className="grid grid-cols-2 gap-4">
-        {discountItems.map((item, index) => (
-          <DiscountItem key={index} item={item} setShoppingList={setShoppingList} />
-        ))}
+        {discountItems.length > 0 ? (
+          discountItems.map((item, index) => (
+            <DiscountItem key={index} item={item} setShoppingList={setShoppingList} />
+          ))
+        ) : (
+          <p>No discount items available.</p>
+        )}
       </div>
     </div>
   );
