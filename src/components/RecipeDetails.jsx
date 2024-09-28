@@ -1,21 +1,26 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const RecipeDetails = ({ recipe, setCart, setStep }) => {
-  const [ingredients, setIngredients] = useState(recipe.ingredients);
+  const [ingredients, setIngredients] = useState(
+    recipe.ingredients.map(ing => ({ ...ing, checked: true }))
+  );
 
-  const handleQuantityChange = (index, newQuantity) => {
+  const handleCheckChange = (index) => {
     const updatedIngredients = [...ingredients];
-    updatedIngredients[index].quantity = newQuantity;
+    updatedIngredients[index].checked = !updatedIngredients[index].checked;
     setIngredients(updatedIngredients);
   };
 
-  const totalCost = ingredients.reduce((sum, ing) => sum + ing.price * ing.quantity, 0);
+  const totalCost = ingredients
+    .filter(ing => ing.checked)
+    .reduce((sum, ing) => sum + ing.price * ing.quantity, 0);
 
   const handleAddToCart = () => {
-    setCart((prevCart) => [...prevCart, { ...recipe, ingredients }]);
+    const selectedIngredients = ingredients.filter(ing => ing.checked);
+    setCart((prevCart) => [...prevCart, { ...recipe, ingredients: selectedIngredients }]);
     setStep("cart");
   };
 
@@ -25,17 +30,16 @@ const RecipeDetails = ({ recipe, setCart, setStep }) => {
       <div className="space-y-2">
         <h3 className="text-xl font-semibold">Ingredients:</h3>
         {ingredients.map((ing, index) => (
-          <div key={index} className="flex items-center justify-between">
-            <span>{ing.name}</span>
-            <div className="flex items-center space-x-2">
-              <Input
-                type="number"
-                value={ing.quantity}
-                onChange={(e) => handleQuantityChange(index, e.target.value)}
-                className="w-20"
-              />
-              <span>${(ing.price * ing.quantity).toFixed(2)}</span>
-            </div>
+          <div key={index} className="flex items-center space-x-2">
+            <Checkbox
+              checked={ing.checked}
+              onCheckedChange={() => handleCheckChange(index)}
+              id={`ingredient-${index}`}
+            />
+            <label htmlFor={`ingredient-${index}`} className="flex-grow">
+              {ing.name} - Quantity: {ing.quantity}
+            </label>
+            <span>${ing.price.toFixed(2)}</span>
           </div>
         ))}
       </div>
