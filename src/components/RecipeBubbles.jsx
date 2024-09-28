@@ -13,7 +13,7 @@ const RecipeBubbles = ({ recipes, setSelectedRecipe, setStep }) => {
         {recipes.map((recipe, index) => (
           <Card key={index} className="p-4 cursor-pointer hover:shadow-lg transition-shadow">
             <img
-              src={`https://source.unsplash.com/300x200/?${recipe.name}`}
+              src={`${recipe.image_url}`}
               alt={recipe.name}
               className="w-full h-40 object-cover rounded-md mb-2"
             />

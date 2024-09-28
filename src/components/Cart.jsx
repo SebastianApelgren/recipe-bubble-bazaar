@@ -33,7 +33,7 @@ const Cart = ({ cart, setCart, setStep }) => {
     refetch();
   };
 
-  const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalCost = cart.reduce((sum, item) => sum + (item.price), 0);
 
   return (
     <Card className="p-4 space-y-4">
@@ -43,7 +43,7 @@ const Cart = ({ cart, setCart, setStep }) => {
           <h3 className="text-xl font-semibold">{item.name}</h3>
           <div className="flex justify-between">
             <span>{item.name} - Quantity: {item.quantity}</span>
-            <span>${(item.price * item.quantity).toFixed(2)}</span>
+            <span>${(item.price ).toFixed(2)}</span>
           </div>
         </div>
       ))}

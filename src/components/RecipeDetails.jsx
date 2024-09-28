@@ -18,7 +18,7 @@ const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
 
   const totalCost = ingredients
     .filter(ing => ing.checked)
-    .reduce((sum, ing) => sum + ing.price * ing.quantity, 0);
+    .reduce((sum, ing) => sum + ing.price, 0);
 
   const handleAddToCart = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
