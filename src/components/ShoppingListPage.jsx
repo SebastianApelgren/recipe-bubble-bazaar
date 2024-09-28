@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Trash2 } from "lucide-react";
+import { motion } from "framer-motion";
 
-const ShoppingListPage = ({ setCart, setStep, shoppingList, setShoppingList }) => {
-  const [newItem, setNewItem] = useState({ name: "", quantity: "", price: "" });
+const ShoppingListPage = ({ setCart, setStep }) => {
+  const [items, setItems] = useState([]);
+  const [newItem, setNewItem] = useState({ name: "", quantity: "" });
+  const [isAdded, setIsAdded] = useState(false);
 
   const addItem = () => {
-    if (newItem.name && newItem.quantity && newItem.price) {
-      setShoppingList([...shoppingList, { ...newItem, price: parseFloat(newItem.price) }]);
-      setNewItem({ name: "", quantity: "", price: "" });
+    if (newItem.name && newItem.quantity) {
+      setItems([...items, newItem]);
+      setNewItem({ name: "", quantity: "" });
     }
   };
 
-  const removeItem = (index) => {
-    const updatedList = shoppingList.filter((_, i) => i !== index);
-    setShoppingList(updatedList);
-  };
-
   const addToCart = () => {
-    setCart((prevCart) => [...prevCart, ...shoppingList]);
-    setStep("cart");
+    setCart((prevCart) => [...prevCart, ...items]);
+    setIsAdded(true);
   };
 
   return (
@@ -37,27 +34,26 @@ const ShoppingListPage = ({ setCart, setStep, shoppingList, setShoppingList }) =
           value={newItem.quantity}
           onChange={(e) => setNewItem({ ...newItem, quantity: e.target.value })}
         />
-        <Input
-          placeholder="Price"
-          type="number"
-          value={newItem.price}
-          onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-        />
         <Button onClick={addItem}>Add</Button>
       </div>
       <ul className="space-y-2">
-        {shoppingList.map((item, index) => (
-          <li key={index} className="flex justify-between items-center">
-            <span>{item.name} - {item.quantity} - ${item.price.toFixed(2)}</span>
-            <Button variant="ghost" size="icon" onClick={() => removeItem(index)}>
-              <Trash2 className="h-4 w-4" />
-            </Button>
+        {items.map((item, index) => (
+          <li key={index}>
+            {item.name} - {item.quantity}
           </li>
         ))}
       </ul>
-      <Button className="w-full" onClick={addToCart}>
-        Add All to Cart
-      </Button>
+      <motion.div
+        animate={isAdded ? { backgroundColor: "#22c55e" } : {}}
+        transition={{ duration: 0.3 }}
+      >
+        <Button
+          className="w-full"
+          onClick={isAdded ? () => setStep("cart") : addToCart}
+        >
+          {isAdded ? "Go to Cart" : "Add to Cart"}
+        </Button>
+      </motion.div>
     </div>
   );
 };

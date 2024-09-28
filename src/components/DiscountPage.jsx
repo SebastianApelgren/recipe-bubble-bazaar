@@ -11,7 +11,11 @@ const discountItems = [
   { name: "Carrots Class 1", brand: "GARANT", weight: "1kg", oldPrice: 18.95, newPrice: 8.00, unitPrice: 8.00 },
 ];
 
-const DiscountItem = ({ item, setShoppingList }) => {
+const DiscountItem = ({ item, setCart, setShoppingList }) => {
+  const handleAddToCart = () => {
+    setCart(prevCart => [...prevCart, { ...item, quantity: 1, price: item.newPrice }]);
+  };
+
   const handleAddToShoppingList = () => {
     setShoppingList(prevList => [...prevList, { ...item, quantity: 1, price: item.newPrice }]);
   };
@@ -27,18 +31,19 @@ const DiscountItem = ({ item, setShoppingList }) => {
       {item.maxPurchase && <p>Max {item.maxPurchase} purchases</p>}
       <div className="space-y-2">
         <Button onClick={handleAddToShoppingList} className="w-full">Add to List</Button>
+        <Button onClick={handleAddToCart} className="w-full">Add to Cart</Button>
       </div>
     </Card>
   );
 };
 
-const DiscountPage = ({ setShoppingList }) => {
+const DiscountPage = ({ setCart, setShoppingList }) => {
   return (
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">All Current Offers:</h2>
       <div className="grid grid-cols-2 gap-4">
         {discountItems.map((item, index) => (
-          <DiscountItem key={index} item={item} setShoppingList={setShoppingList} />
+          <DiscountItem key={index} item={item} setCart={setCart} setShoppingList={setShoppingList} />
         ))}
       </div>
     </div>
