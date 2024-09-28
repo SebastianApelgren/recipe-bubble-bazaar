@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
+const RecipeDetails = ({ recipe, setShoppingList, setStep, addToRecentRecipes }) => {
   const [ingredients, setIngredients] = useState(
     recipe.ingredients.map(ing => ({ ...ing, checked: true }))
   );
@@ -21,6 +21,7 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
   const handleAddToShoppingList = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
     setShoppingList((prevList) => [...prevList, ...selectedIngredients]);
+    addToRecentRecipes(recipe);
   };
 
   return (
@@ -47,8 +48,6 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
         <h3 className="text-xl font-semibold">Instructions:</h3>
         {(() => {
           const instructionsArray = recipe.instructions.split(/\d+\.\s+/).filter(Boolean);
-          console.log(instructionsArray); // Check the output in the console
-
           return (
             <ol className="list-decimal list-inside">
               {instructionsArray.map((instruction, index) => (

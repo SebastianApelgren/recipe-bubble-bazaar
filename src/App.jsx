@@ -23,11 +23,19 @@ const App = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [cart, setCart] = useState([]);
   const [shoppingList, setShoppingList] = useState([]);
+  const [recentRecipes, setRecentRecipes] = useState([]);
+
+  const addToRecentRecipes = (recipe) => {
+    setRecentRecipes((prev) => {
+      const updatedRecipes = [recipe, ...prev.filter((r) => r.name !== recipe.name)];
+      return updatedRecipes.slice(0, 5); // Keep only the 5 most recent recipes
+    });
+  };
 
   const renderContent = () => {
     switch (step) {
       case "home":
-        return <HomePage setStep={setStep} />;
+        return <HomePage setStep={setStep} recentRecipes={recentRecipes} />;
       case "prompt":
         return <RecipePrompt setRecipes={setRecipes} setStep={setStep} />;
       case "bubbles":
@@ -45,6 +53,7 @@ const App = () => {
             setCart={setCart}
             setShoppingList={setShoppingList}
             setStep={setStep}
+            addToRecentRecipes={addToRecentRecipes}
           />
         );
       case "cart":
@@ -74,7 +83,7 @@ const App = () => {
             </Button>
           </div>
           {renderContent()}
-          <BottomNavigation setStep={setStep} cartItemCount={cart.length} />
+          <BottomNavigation setStep={setStep} cartItemCount={cart.length} shoppingListCount={shoppingList.length} />
         </div>
       </TooltipProvider>
     </QueryClientProvider>
