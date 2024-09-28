@@ -19,13 +19,9 @@ const RecipePrompt = ({ setRecipes, setStep }) => {
     },
     enabled: false,
     onSuccess: (data) => {
-      console.log("Received data:", data); // Debug log
-      if (Array.isArray(data) && data.length > 0) {
-        setRecipes(data);
-        setStep("bubbles");
-      } else {
-        console.error("Unexpected data format:", data);
-      }
+      console.log("Received data:", data); // Add this line for debugging
+      setRecipes(data);
+      setStep("bubbles");
     },
     onError: (error) => {
       console.error("Error fetching recipes:", error);
@@ -35,7 +31,6 @@ const RecipePrompt = ({ setRecipes, setStep }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Submitting prompt:", prompt); // Debug log
     refetch();
   };
 
