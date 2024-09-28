@@ -52,8 +52,9 @@ const Cart = ({ cart, setCart, setStep }) => {
           <h3 className="text-xl font-semibold">{recipe.name}</h3>
           <ul>
             {recipe.ingredients.map((ing, ingIndex) => (
-              <li key={ingIndex}>
-                {ing.name} - Quantity: {ing.quantity}, Price: ${(ing.price * ing.quantity).toFixed(2)}
+              <li key={ingIndex} className="flex justify-between">
+                <span>{ing.name} - Quantity: {ing.quantity}</span>
+                <span>${(ing.price * ing.quantity).toFixed(2)}</span>
               </li>
             ))}
           </ul>

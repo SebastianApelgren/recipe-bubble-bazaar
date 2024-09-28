@@ -1,21 +1,21 @@
-import { List, ShoppingCart, ChefHat, User, Percent } from "lucide-react";
+import { Home, Percent, ChefHat, List, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 const BottomNavigation = ({ setStep, cartItemCount }) => {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg p-2 flex justify-around items-center">
-      <Button variant="ghost" onClick={() => setStep("shoppingList")}>
-        <List className="h-6 w-6" />
+      <Button variant="ghost" onClick={() => setStep("home")}>
+        <Home className="h-6 w-6" />
       </Button>
-      <Button variant="ghost" disabled>
+      <Button variant="ghost" onClick={() => setStep("discount")}>
         <Percent className="h-6 w-6" />
       </Button>
       <Button variant="ghost" onClick={() => setStep("prompt")}>
         <ChefHat className="h-6 w-6" />
       </Button>
-      <Button variant="ghost" onClick={() => setStep("profile")}>
-        <User className="h-6 w-6" />
+      <Button variant="ghost" onClick={() => setStep("shoppingList")}>
+        <List className="h-6 w-6" />
       </Button>
       <Button variant="ghost" onClick={() => setStep("cart")} className="relative">
         <ShoppingCart className="h-6 w-6" />

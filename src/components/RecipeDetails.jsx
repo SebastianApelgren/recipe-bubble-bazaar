@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
 
-const RecipeDetails = ({ recipe, setCart, setStep }) => {
+const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
   const [ingredients, setIngredients] = useState(
     recipe.ingredients.map(ing => ({ ...ing, checked: true }))
   );
@@ -24,6 +24,11 @@ const RecipeDetails = ({ recipe, setCart, setStep }) => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
     setCart((prevCart) => [...prevCart, { ...recipe, ingredients: selectedIngredients }]);
     setIsAdded(true);
+  };
+
+  const handleAddToShoppingList = () => {
+    const selectedIngredients = ingredients.filter(ing => ing.checked);
+    setShoppingList((prevList) => [...prevList, ...selectedIngredients]);
   };
 
   return (
@@ -48,19 +53,29 @@ const RecipeDetails = ({ recipe, setCart, setStep }) => {
       <div className="text-xl font-semibold">Total Cost: ${totalCost.toFixed(2)}</div>
       <div className="space-y-2">
         <h3 className="text-xl font-semibold">Instructions:</h3>
-        <p>{recipe.instructions}</p>
+        <ol className="list-decimal list-inside">
+          {recipe.instructions.split('. ').map((instruction, index) => (
+            <li key={index}>{instruction}</li>
+          ))}
+        </ol>
       </div>
-      <motion.div
-        animate={isAdded ? { backgroundColor: "#22c55e" } : {}}
-        transition={{ duration: 0.3 }}
-      >
-        <Button
-          onClick={isAdded ? () => setStep("cart") : handleAddToCart}
-          className="w-full"
+      <div className="flex space-x-2">
+        <motion.div
+          animate={isAdded ? { backgroundColor: "#22c55e" } : {}}
+          transition={{ duration: 0.3 }}
+          className="flex-1"
         >
-          {isAdded ? "Go to Cart" : "Add to Cart"}
+          <Button
+            onClick={isAdded ? () => setStep("cart") : handleAddToCart}
+            className="w-full"
+          >
+            {isAdded ? "Go to Cart" : "Add to Cart"}
+          </Button>
+        </motion.div>
+        <Button onClick={handleAddToShoppingList} className="flex-1">
+          Add to Shopping List
         </Button>
-      </motion.div>
+      </div>
     </Card>
   );
 };
