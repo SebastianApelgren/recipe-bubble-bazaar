@@ -41,11 +41,16 @@ const ShoppingListPage = ({ setCart, setStep, shoppingList, setShoppingList }) =
         />
         <Button onClick={addItem}>Add</Button>
       </div>
-      <ul className="space-y-2">
+      <ul className="list-disc space-y-2 pl-5">
         {shoppingList.map((item, index) => (
-          <li key={index} className="flex justify-between items-center">
+          <li key={index} className="flex justify-between items-center  px-4 py-2">
             <span>{item.name} - {item.quantity}</span>
-            <Button variant="ghost" size="icon" onClick={() => removeItem(index)}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => removeItem(index)}
+              className="text-black rounded px-4 py-2"
+            >
               <Trash2 className="h-4 w-4" />
             </Button>
           </li>
