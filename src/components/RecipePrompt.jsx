@@ -1,32 +1,40 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const RecipePrompt = ({ setRecipes, setStep }) => {
   const [prompt, setPrompt] = useState("");
 
-  const { refetch, isLoading } = useQuery({
-    queryKey: ["generateRecipe"],
-    queryFn: async () => {
+  // Define the mutation
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (prompt) => {
+      // Move the fetch request here
       const response = await fetch("http://127.0.0.1:5000/generate_recipe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: prompt }),
+        body: JSON.stringify({ query: prompt }), // Send the prompt to the server
       });
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return await response.json(); // Return the JSON response
     },
-    enabled: false,
     onSuccess: (data) => {
-      setRecipes(data);
-      setStep("bubbles");
+      // This callback will run when the mutation is successful
+      setRecipes(data); // Update the recipes state with the fetched data
+      setStep("bubbles"); // Move to the next step in the app
+    },
+    onError: (error) => {
+      console.error("Error fetching recipe:", error); // Handle any errors
     },
   });
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    refetch();
+    mutate(prompt); // Trigger the mutation and pass the prompt
   };
 
   return (
