@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "sonner";
 
 const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
   const [ingredients, setIngredients] = useState(
@@ -22,7 +21,6 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
   const handleAddToShoppingList = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
     setShoppingList((prevList) => [...prevList, ...selectedIngredients]);
-    toast.success(`Added ${selectedIngredients.length} item(s) to the shopping list`);
   };
 
   return (
