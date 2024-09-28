@@ -2,39 +2,36 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Loader } from "lucide-react";
 
 const RecipePrompt = ({ setRecipes, setStep }) => {
   const [prompt, setPrompt] = useState("");
 
-  // Define the mutation
   const { mutate, isLoading } = useMutation({
     mutationFn: async (prompt) => {
-      // Move the fetch request here
       const response = await fetch("http://127.0.0.1:5000/generate_recipe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: prompt }), // Send the prompt to the server
+        body: JSON.stringify({ query: prompt }),
       });
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return await response.json(); // Return the JSON response
+      return await response.json();
     },
     onSuccess: (data) => {
-      // This callback will run when the mutation is successful
-      setRecipes(data); // Update the recipes state with the fetched data
-      setStep("bubbles"); // Move to the next step in the app
+      setRecipes(data);
+      setStep("bubbles");
     },
     onError: (error) => {
-      console.error("Error fetching recipe:", error); // Handle any errors
+      console.error("Error fetching recipe:", error);
     },
   });
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate(prompt); // Trigger the mutation and pass the prompt
+    mutate(prompt);
   };
 
   return (
@@ -47,7 +44,14 @@ const RecipePrompt = ({ setRecipes, setStep }) => {
         className="w-full"
       />
       <Button type="submit" disabled={isLoading} className="w-full bg-red-500 hover:bg-red-800 text-white">
-        {isLoading ? "Generating..." : "Generate Recipes"}
+        {isLoading ? (
+          <>
+            <Loader className="mr-2 h-4 w-4 animate-spin" />
+            Generating...
+          </>
+        ) : (
+          "Generate Recipes"
+        )}
       </Button>
     </form>
   );
