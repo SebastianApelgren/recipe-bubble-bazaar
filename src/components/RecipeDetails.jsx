@@ -22,7 +22,7 @@ const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
 
   const handleAddToCart = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
-    setCart((prevCart) => [...prevCart, { ...recipe, ingredients: selectedIngredients }]);
+    setCart((prevCart) => [...prevCart, ...selectedIngredients]);
     setIsAdded(true);
   };
 

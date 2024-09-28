@@ -33,7 +33,7 @@ const Cart = ({ cart, setCart, setStep }) => {
     refetch();
   };
 
-  const totalCost = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalCost = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
   return (
     <Card className="p-4 space-y-4">
