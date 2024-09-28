@@ -15,8 +15,6 @@ const App = () => {
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [cart, setCart] = useState([]);
 
-  console.log("Current step:", step); // Add this line for debugging
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
