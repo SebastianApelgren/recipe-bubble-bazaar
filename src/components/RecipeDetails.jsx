@@ -2,13 +2,11 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { motion } from "framer-motion";
 
-const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
+const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
   const [ingredients, setIngredients] = useState(
     recipe.ingredients.map(ing => ({ ...ing, checked: true }))
   );
-  const [isAdded, setIsAdded] = useState(false);
 
   const handleCheckChange = (index) => {
     const updatedIngredients = [...ingredients];
@@ -19,12 +17,6 @@ const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
   const totalCost = ingredients
     .filter(ing => ing.checked)
     .reduce((sum, ing) => sum + ing.price * ing.quantity, 0);
-
-  const handleAddToCart = () => {
-    const selectedIngredients = ingredients.filter(ing => ing.checked);
-    setCart((prevCart) => [...prevCart, ...selectedIngredients]);
-    setIsAdded(true);
-  };
 
   const handleAddToShoppingList = () => {
     const selectedIngredients = ingredients.filter(ing => ing.checked);
@@ -60,20 +52,8 @@ const RecipeDetails = ({ recipe, setCart, setShoppingList, setStep }) => {
         </ol>
       </div>
       <div className="flex space-x-2">
-        <motion.div
-          animate={isAdded ? { backgroundColor: "#22c55e" } : {}}
-          transition={{ duration: 0.3 }}
-          className="flex-1"
-        >
-          <Button
-            onClick={isAdded ? () => setStep("cart") : handleAddToCart}
-            className="w-full"
-          >
-            {isAdded ? "Go to Cart" : "Add to Cart"}
-          </Button>
-        </motion.div>
-        <Button onClick={handleAddToShoppingList} className="flex-1">
-          Add to Shopping List
+        <Button onClick={handleAddToShoppingList} className="w-full">
+          Add to List
         </Button>
       </div>
     </Card>

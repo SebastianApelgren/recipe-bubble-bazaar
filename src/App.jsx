@@ -46,7 +46,6 @@ const App = () => {
         return (
           <RecipeDetails
             recipe={selectedRecipe}
-            setCart={setCart}
             setShoppingList={setShoppingList}
             setStep={setStep}
           />
@@ -58,7 +57,7 @@ const App = () => {
       case "shoppingList":
         return <ShoppingListPage setCart={setCart} setStep={setStep} shoppingList={shoppingList} setShoppingList={setShoppingList} />;
       case "discount":
-        return <DiscountPage setCart={setCart} setShoppingList={setShoppingList} />;
+        return <DiscountPage setShoppingList={setShoppingList} />;
       default:
         return null;
     }
@@ -69,8 +68,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <div className="min-h-screen bg-red-200 p-4 pb-16 relative">
-          <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold text-center text-red-500 font-Times New Roman">Recipe Bubble Bazaar</h1>
+          <div className="flex justify-end items-center mb-6">
             <Button variant="outline" size="icon" onClick={() => setStep("profile")}>
               <User className="h-4 w-4" />
             </Button>
