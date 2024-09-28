@@ -45,11 +45,18 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
       <div className="text-xl font-semibold">Total Cost: ${totalCost.toFixed(2)}</div>
       <div className="space-y-2">
         <h3 className="text-xl font-semibold">Instructions:</h3>
-        <ol className="list-decimal list-inside">
-          {recipe.instructions.split(/\d+\.\s+/).filter(Boolean).map((instruction, index) => (
-            <li key={index}>{instruction.trim()}</li>
-          ))}
-        </ol>
+        {(() => {
+          const instructionsArray = recipe.instructions.split(/\d+\.\s+/).filter(Boolean);
+          console.log(instructionsArray); // Check the output in the console
+
+          return (
+            <ol className="list-decimal list-inside">
+              {instructionsArray.map((instruction, index) => (
+                <li key={index}>{instruction.trim()}</li>
+              ))}
+            </ol>
+          );
+        })()}
       </div>
       <div className="flex space-x-2">
         <Button onClick={handleAddToShoppingList} className="flex-1">
