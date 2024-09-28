@@ -46,7 +46,7 @@ const RecipePrompt = ({ setRecipes, setStep }) => {
         placeholder="Enter your recipe prompt..."
         className="w-full"
       />
-      <Button type="submit" disabled={isLoading} className="w-full">
+      <Button type="submit" disabled={isLoading} className="w-full bg-red-500 hover:bg-green-600 text-white">
         {isLoading ? "Generating..." : "Generate Recipes"}
       </Button>
     </form>

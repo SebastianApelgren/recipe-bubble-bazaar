@@ -53,8 +53,8 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <div className="min-h-screen bg-gray-100 p-4 pb-16 relative">
-          <h1 className="text-3xl font-bold text-center mb-6">Recipe Generator</h1>
+        <div className="min-h-screen bg-red-200 p-4 pb-16 relative">
+          <h1 className="text-3xl font-bold text-center mb-6 text-red-500 font-Times New Roman">Recipe Generator</h1>
           {renderContent()}
           <BottomNavigation setStep={setStep} cartItemCount={cart.length} />
         </div>
