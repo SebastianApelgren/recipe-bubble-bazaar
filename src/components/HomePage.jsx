@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 const HomePage = ({ setStep }) => {
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Welcome!</h2>
+      <h2 className="text-2xl font-bold text-red-500 font-serif">Welcome!</h2>
       <div className="space-y-4">
-        <Button onClick={() => setStep("recentRecipes")} className="w-full">
+        <Button onClick={() => setStep("recentRecipes")} className="w-full bg-red-500 text-white hover:bg-red-700">
           Recent Recipes
         </Button>
-        <Button onClick={() => setStep("favoriteRecipes")} className="w-full">
+        <Button onClick={() => setStep("favoriteRecipes")} className="w-full bg-red-500 text-white hover:bg-red-700">
           Favorite Recipes
         </Button>
       </div>

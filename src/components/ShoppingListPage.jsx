@@ -27,7 +27,7 @@ const ShoppingListPage = ({ setCart, setStep, shoppingList, setShoppingList }) =
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Shopping List</h2>
+      <h2 className="text-2xl font-bold text-red-500 font-serif">Shopping List</h2>
       <div className="flex space-x-2">
         <Input
           placeholder="Item name"

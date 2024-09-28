@@ -58,7 +58,7 @@ const DiscountPage = ({ setShoppingList }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold">All Current Offers:</h2>
+      <h2 className="text-2xl font-bold text-red-500 font-serif">All Current Offers:</h2>
       <div className="grid grid-cols-2 gap-4">
         {discountItems.length > 0 ? (
           discountItems.map((item, index) => (
