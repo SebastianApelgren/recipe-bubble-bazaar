@@ -58,7 +58,7 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep, addToRecentRecipes })
         })()}
       </div>
       <div className="flex space-x-2">
-        <Button onClick={handleAddToShoppingList} className="flex-1">
+        <Button onClick={handleAddToShoppingList} className="flex-1 bg-black text-white hover:bg-black active:bg-green-200">
           Add to Shopping List
         </Button>
       </div>
