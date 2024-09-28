@@ -13,11 +13,11 @@ const discountItems = [
 
 const DiscountItem = ({ item, setCart, setShoppingList }) => {
   const handleAddToCart = () => {
-    setCart(prevCart => [...prevCart, { ...item, quantity: 1 }]);
+    setCart(prevCart => [...prevCart, { ...item, quantity: 1, price: item.newPrice }]);
   };
 
   const handleAddToShoppingList = () => {
-    setShoppingList(prevList => [...prevList, { ...item, quantity: 1 }]);
+    setShoppingList(prevList => [...prevList, { ...item, quantity: 1, price: item.newPrice }]);
   };
 
   return (
@@ -30,7 +30,7 @@ const DiscountItem = ({ item, setCart, setShoppingList }) => {
       <p>Unit price: ${item.unitPrice.toFixed(2)}/kg</p>
       {item.maxPurchase && <p>Max {item.maxPurchase} purchases</p>}
       <div className="space-y-2">
-        <Button onClick={handleAddToShoppingList} className="w-full">Add to Shopping List</Button>
+        <Button onClick={handleAddToShoppingList} className="w-full">Add to List</Button>
         <Button onClick={handleAddToCart} className="w-full">Add to Cart</Button>
       </div>
     </Card>

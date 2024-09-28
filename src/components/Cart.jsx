@@ -18,7 +18,7 @@ const Cart = ({ cart, setCart, setStep }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ingredients: cart.flatMap((recipe) => recipe.ingredients),
+          items: cart,
           address,
           card: { cardHolder, cardNumber, cvv },
         }),
@@ -33,31 +33,18 @@ const Cart = ({ cart, setCart, setStep }) => {
     refetch();
   };
 
-  const totalCost = cart.reduce(
-    (sum, recipe) =>
-      sum + recipe.ingredients.reduce((recipeSum, ing) => recipeSum + ing.price * ing.quantity, 0),
-    0
-  );
-
-  const totalItems = cart.reduce(
-    (sum, recipe) => sum + recipe.ingredients.length,
-    0
-  );
+  const totalCost = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
     <Card className="p-4 space-y-4">
-      <h2 className="text-2xl font-bold">Your Cart ({totalItems} items)</h2>
-      {cart.map((recipe, index) => (
+      <h2 className="text-2xl font-bold">Your Cart ({cart.length} items)</h2>
+      {cart.map((item, index) => (
         <div key={index} className="border-b pb-2">
-          <h3 className="text-xl font-semibold">{recipe.name}</h3>
-          <ul>
-            {recipe.ingredients.map((ing, ingIndex) => (
-              <li key={ingIndex} className="flex justify-between">
-                <span>{ing.name} - Quantity: {ing.quantity}</span>
-                <span>${(ing.price * ing.quantity).toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
+          <h3 className="text-xl font-semibold">{item.name}</h3>
+          <div className="flex justify-between">
+            <span>{item.name} - Quantity: {item.quantity}</span>
+            <span>${(item.price * item.quantity).toFixed(2)}</span>
+          </div>
         </div>
       ))}
       <div className="text-xl font-semibold">Total Cost: ${totalCost.toFixed(2)}</div>
