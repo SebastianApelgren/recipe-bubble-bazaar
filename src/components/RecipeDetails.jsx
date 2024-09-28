@@ -46,7 +46,7 @@ const RecipeDetails = ({ recipe, setShoppingList, setStep }) => {
       <div className="space-y-2">
         <h3 className="text-xl font-semibold">Instructions:</h3>
         <ol className="list-decimal list-inside">
-          {recipe.instructions.split(/\d+\./).filter(Boolean).map((instruction, index) => (
+          {recipe.instructions.split(/\d+\.\s+/).filter(Boolean).map((instruction, index) => (
             <li key={index}>{instruction.trim()}</li>
           ))}
         </ol>

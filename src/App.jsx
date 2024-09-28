@@ -28,12 +28,7 @@ const App = () => {
       case "home":
         return <HomePage setStep={setStep} />;
       case "prompt":
-        return (
-          <>
-            <h1 className="text-3xl font-bold text-center text-red-500 font-Times New Roman mb-6">Recipe Generator</h1>
-            <RecipePrompt setRecipes={setRecipes} setStep={setStep} />
-          </>
-        );
+        return <RecipePrompt setRecipes={setRecipes} setStep={setStep} />;
       case "bubbles":
         return (
           <RecipeBubbles
@@ -68,8 +63,9 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <div className="min-h-screen bg-red-200 p-4 pb-16 relative">
+        <div className="min-h-screen bg-red-100 p-4 pb-16 relative">
           <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold text-center text-red-500 font-Times New Roman">Recipe Generator</h1>
             <Button variant="outline" size="icon" onClick={() => setStep("profile")}>
               <User className="h-4 w-4" />
             </Button>
